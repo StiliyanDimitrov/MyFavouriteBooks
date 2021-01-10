@@ -1,0 +1,14 @@
+= label :book, :title, 'Title'
+= text_field :book, :title
+
+= label :book, :genre, 'Genre'
+= select :book, :genre, ['Science fiction','Drama','Action and Adventure','Romance','Mystery','Horror']
+  
+= label :book, :isbn_number, 'ISBN'
+= text_field :book, :isbn_number
+  
+= label :book, :description, 'Description'
+= text_field :book, :description
+ 
+= label :book, :publish_date, 'Published On'
+= date_select :book, :publish_date, :start_year => Date.current.year, :end_year => 1900
