@@ -1,0 +1,14 @@
+%h1 Similar books to #{@book.title}
+
+%table#similar_books
+  %thead
+    %tr
+      %th{:class => @title_header}= link_to 'Book Title', books_path(:sort => 'title'), :id => 'title_header'
+      %th Genre
+      %th ISBN
+      %th Author
+      %th{:class => @date_header}= link_to 'Publish Date', books_path(:sort => 'publish_date'), :id => 'publish_date_header'
+      %th More Info
+  %tbody    
+    = render :partial => 'book_index_form', :collection => @books, :as => :book
+  

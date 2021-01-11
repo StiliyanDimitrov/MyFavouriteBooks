@@ -19,6 +19,8 @@ class BooksController < ApplicationController
         @selected_genres = Hash[@all_genres.map {|genre| [genre, genre]}]
       end
 
+      @selected_author = params[:author]|| ""
+
       if permitted[:sort] != session[:sort] or permitted[:genres] != session[:genres]
         session[:sort] = sort
         session[:genres] = @selected_genres
@@ -39,7 +41,7 @@ class BooksController < ApplicationController
 
     def create
       params.require(:book)
-      permitted = params[:book].permit(:title,:genre,:publish_date,:isbn_number,:description)
+      permitted = params[:book].permit(:title,:genre,:publish_date,:isbn_number,:description,:author)
       @book = Book.new(permitted)
 
       if @book.save
@@ -57,7 +59,7 @@ class BooksController < ApplicationController
     def update
       @book = Book.find params[:id]
       params.require(:book)
-      permitted = params[:book].permit(:title,:genre,:publish_date,:isbn_number,:description)
+      permitted = params[:book].permit(:title,:genre,:publish_date,:isbn_number,:description,:author)
       
       if @book.update_attributes(permitted)      
         flash[:notice] = "#{@book.title} was successfully updated."
@@ -72,5 +74,15 @@ class BooksController < ApplicationController
       @book.destroy
       flash[:notice] = "Book '#{@book.title}' deleted."
       redirect_to books_path
+    end
+
+    def search_similar_books
+      @book = Book.find(params[:id])
+      if @book.author.nil? || @book.author.empty?
+        flash[:warning]= "'#{@book.title}' has no author info"
+        redirect_to books_path
+      else
+        @books = Book.similar_books(@book)
+      end
     end
   end

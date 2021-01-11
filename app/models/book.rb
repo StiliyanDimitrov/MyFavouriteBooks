@@ -16,4 +16,8 @@ class Book < ApplicationRecord
     self.title = title.split.each{|x| x.capitalize!}.join(' ')
   end
 
+  def self.similar_books(book)
+    Book.where author: book.author
+  end
+
 end

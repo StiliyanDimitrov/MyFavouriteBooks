@@ -50,3 +50,14 @@ end
 group :production do
   gem 'pg'              # use PostgreSQL in production (Heroku)
 end
+
+group :test do
+  gem 'cucumber-rails', :require => false
+  gem 'cucumber-rails-training-wheels' # some pre-fabbed step definitions  
+  gem 'database_cleaner' # to clear Cucumber's test database between runs
+  # Adds support for Capybara system testing and selenium driver
+  gem 'capybara', '>= 2.15'
+  gem 'launchy'          # a useful debugging aid for user stories
+  gem 'rspec-rails' 
+  gem 'rails-controller-testing'
+end
